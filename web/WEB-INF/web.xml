@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee   http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <display-name/>
+    <context-param>
+        <param-name>dbUrl</param-name>
+        <param-value>jdbc:mysql://localhost:3307/test</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbUserID</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <param-name>dbPassword</param-name>
+        <param-value>usbw</param-value>
+    </context-param>
+    <servlet>
+        <servlet-name>testFileUpload</servlet-name>
+        <jsp-file>/testFileUpload.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>testFileUpload</servlet-name>
+        <url-pattern>/testFileUpload</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>login.jsp</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    <context-param>
+        <description>Location to store uploaded file</description>
+        <param-name>file-upload</param-name>
+        <param-value>C:\apache-tomcat-7.0.47\webapps\data\</param-value>
+    </context-param>
+    <jsp-config>
+    </jsp-config>
+</web-app>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/RecordRTC.js"></script>
+
+    </head>
+    <body>
+        <script>window.onload = function() {
+                navigator.getMedia = (navigator.getUserMedia ||
+                        navigator.webkitGetUserMedia ||
+                        navigator.mozGetUserMedia ||
+                        navigator.msGetUserMedia);
+                var recordRTC;
+                var btnRecord = document.querySelector("#btnRecord");
+                var btnStop = document.querySelector("#btnStop");
+                navigator.getMedia({audio: true}, function(mediaStream) {
+                    recordRTC = RecordRTC(mediaStream);
+                }, function(e) {
+                    console.log('Reeeejected!', e);
+                });
+                btnRecord.onclick = function() {
+                    recordRTC.startRecording();
+                };
+                btnStop.onclick = function() {
+                    recordRTC.stopRecording(function(audioURL) {
+                        var fileName = Math.round(Math.random() * 99999999) + 99999999;
+                        PostBlob(recordRTC.getBlob(), 'audio', fileName + '.ogg');
+                    });
+                };
+                function PostBlob(blob, fileType, fileName) {
+                    // FormData
+                    var formData = new FormData();
+                    formData.append(fileType + '-filename', fileName);
+                    formData.append(fileType + '-blob', blob);
+
+                    // POST the Blob
+                    xhr('upload.jsp', formData, function(jsonmsg) {
+                        window.console.log(jsonmsg);
+                        var responseMsg = JSON.parse(jsonmsg);
+                        var mediaElement = document.createElement(fileType);
+                        var source = document.createElement('source');
+                        source.src = responseMsg.url;
+
+                        if (fileType == 'video')
+                            source.type = 'video/webm; codecs="vp8, vorbis"';
+                        if (fileType == 'audio')
+                            source.type = 'audio/ogg';
+                        mediaElement.appendChild(source);
+                        mediaElement.controls = true;
+                        document.querySelector("body").appendChild(mediaElement);
+                    }
+                    );
+                }
+                function xhr(url, data, callback) {
+                    var request = new XMLHttpRequest();
+                    request.onreadystatechange = function() {
+                        if (request.readyState == 4 && request.status == 200) {
+                            callback(request.responseText);
+                        }
+                    };
+                    request.open('POST', url);
+                    request.send(data);
+                }
+            };
+        </script>
+        <button id="btnRecord">Record</button>
+        <button id="btnStop">Stop</button>
+    </body>
+</html>
