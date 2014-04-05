@@ -15,7 +15,7 @@
     <body>
                     
 <table id="login">
-    <tr><td><label for="userID">user-ID : </label></td><td><input type="text" id="userID" name="userID" form="loginForm" required/></td></tr>
+    <tr><td><label for="userID">ID : </label></td><td><input type="text" id="userID" name="userID" form="loginForm" required/></td></tr>
             <tr><td><label for="userPassword">Password : </label></td><td><input type="password" id="userPassword" name="userPassword" form="loginForm" required/></td></tr>
             <tr><td></td>
                 <td><input type="submit" value="Login" form="loginForm" style="width: 100%;" id="loginBtn"/></td>
