@@ -27,9 +27,17 @@ Ext.define('Ext.ux.form.MyEditor', {
         me.toolbar.insert(17, {
             xtype: 'button',
             enableToggle: true,
+            id: 'rrr',
             icon: 'ext4/resources/images/default/editor/rec.png',
             handler: function() {
                 var editor = me;
+                var _rec = Ext.getCmp('rrr');
+                //alert('pressed?='+_rec.pressed);
+                if (typeof recordRTC == 'undefined') {
+                    Ext.Msg.alert('Premission Dedny', "You must allow the Microphone sharing");
+                    _rec.toggle();
+                    return;
+                }
                 if (this.clickCount) {
                     //looks like the property is already set, so lets just add 1 to that number and alert the user
                     this.clickCount = false;
@@ -66,11 +74,11 @@ Ext.define('Ext.ux.form.MyEditor', {
                                 if (!selection.isCollapsed) {
                                     selection.deleteFromDocument();
                                 }
-                                if (selection.rangeCount > 0) {
+                                /*if (selection.rangeCount > 0) {
                                     selection.getRangeAt(0).insertNode(mediaElement);
-                                }
+                                }*/
                                 else {
-                                    Ext.getCmp('df').setValue(Ext.getCmp('df').getValue() + mediaElement.outerHTML);
+                                    Ext.getCmp('df').setValue(/*Ext.getCmp('df').getValue() + */mediaElement.outerHTML);
                                     //window.console.log(Ext.getCmp('df'));
                                     //Ext.getCmp('df').addChildEls(mediaElement);
                                     //while(mediaElement=null)
@@ -85,8 +93,9 @@ Ext.define('Ext.ux.form.MyEditor', {
                 } else {
                     //if the clickCount property is not set, we will set it and alert the user
                     this.clickCount = true;
-                    alert("start");
+                    //alert("start");
                     //window.console.log(recordRTC);//Missing 
+                    Ext.getCmp('df').setValue('<h1>Recording</h1>');
                     recordRTC.startRecording();
                 }
             },
@@ -197,7 +206,7 @@ Ext.define('Ext.ux.form.MyEditor', {
                                                     qrcode.makeCode(_test);
                                                 }
                                                 makeCode(qrText);
-                                                window.console.log('div?='+div);
+                                                window.console.log('div?=' + div);
                                                 if (Ext.isIE) {
                                                     editor.insertAtCursor(div.outerHTML);
                                                 } else {
