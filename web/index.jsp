@@ -129,8 +129,7 @@
     </head>
 
     <body>
-
         <div id="websocket_button"></div>
-        <div id="scope" style="position: absolute; bottom: 23px" ></div>
+        <div id="scope" style="position: absolute; bottom: 23px;right:920px" ></div>
     </body>
 </html>

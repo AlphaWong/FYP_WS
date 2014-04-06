@@ -23,7 +23,7 @@ Ext.define('MessageContainer', {
         var me = this;
         me.messageModel = Ext.define('Leetop.im.MessageModel', {
             extend: 'Ext.data.Model',
-            fields: ['from', 'timestamp', 'content', 'source','to']
+            fields: ['from', 'timestamp', 'content', 'source', 'to']
         });
         me.store = Ext.create('Ext.data.Store', {
             model: 'Leetop.im.MessageModel',
@@ -41,8 +41,8 @@ Ext.define('MessageContainer', {
         } else {
             message.source = 'remote';
         }
-        if(message.to!='all'){
-            message.to='whisper';
+        if (message.to != 'all') {
+            message.to = 'whisper';
         }
         me.store.add(message);
         if (me.el.dom) {
@@ -157,16 +157,16 @@ Ext.onReady(function() {
                     //window.console.log("User?="+user);
                     //Ext.example.msg("User Join",'User '+user+' is Online');
                     //用户上线
-                    var _no = Ext.create('Ext.ux.window.Notification',{
+                    var _no = Ext.create('Ext.ux.window.Notification', {
                         xtype: 'Notification',
-                        title:'Online Notification',
-                        html :"<h1>"+user+" Online </h1>",
+                        title: 'Online Notification',
+                        html: "<h1>" + user + " Online </h1>",
                         position: 'br'
                     });
                     window.console.log(_no);
                     _no.show();
                     var root = onlineUser.getRootNode();
-                    
+
                     var node = root.createNode({
                         id: user,
                         text: user,
@@ -225,10 +225,10 @@ Ext.onReady(function() {
         layout: 'border',
         iconCls: 'user-win',
         minWidth: 900/*650*/,
-        minHeight: 700/*460*/,
+        minHeight: 600/*460*/,
         width: 900 /*650*/,
         animateTarget: 'websocket_button',
-        height: 700 /*460*/,
+        height: 600 /*460*/,
         minimizable: true,
         maximizable: true,
         closable: false,
@@ -239,10 +239,19 @@ Ext.onReady(function() {
                 initWebSocket();
             },
             minimize: function(win, obj) {
+                win.setWidth = '20px';
                 win.collapse(false);
-                win.alignTo(document.querySelector("#scope"), 'br');
+                win.alignTo(document.querySelector("#scope"), 'bl');
                 //win.minimize();
             }
+//            ,
+//            maximize: function(win, obj) {
+//                //win.setWidth = '20px';
+//                //win.collapse(false);
+//                win.alignTo(document.querySelector("#body"));
+//                //win.minimize();
+//            }
+
         }
     });
     win.show();
