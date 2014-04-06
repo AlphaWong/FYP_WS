@@ -20,12 +20,14 @@
         <script src="js/qrcode.js"></script>
         <link rel="stylesheet" type="text/css" href="ext4/shared/example.css" />
         <link rel="stylesheet" type="text/css" href="css/websocket.css" />
+        <link rel="stylesheet" type="text/css" href="css/image.css" />
         <script src="js/RecordRTC.js"></script>
         <!-- 映入Ext的JS开发包，及自己实现的webscoket. -->
         <script type="text/javascript" src="ext4/ext-all-debug.js"></script>
-
+        <script type="text/javascript" src="js/Notification.js"></script>
         <script>
             window.onload = function() {
+                //document.querySelector('#body').onmousemove = findScreenCoords;
                 navigator.getMedia = (navigator.getUserMedia ||
                         navigator.webkitGetUserMedia ||
                         navigator.mozGetUserMedia ||
@@ -69,6 +71,53 @@
                         alert("Url incorrecta");
                     }
                 };
+
+                var filterPanel = Ext.create('Ext.panel.Panel', {
+                    bodyPadding: 5, // Don't want content to crunch against the borders
+                    width: 300,
+                    title: 'Emoji',
+                    //items: icon,
+                    autoScroll: true,
+                    closable:true,
+                    closeAction: 'hide',
+                    height: 300,
+                    draggable: 'true',
+                    hidden: 'true',
+                    id: 'emoji-main',
+                    renderTo: Ext.getBody()
+                });
+                var icon = [];
+                for (var i = 1; i <= 471; i++) {
+                    var tmpBtn = Ext.create('Ext.Button', {
+                        icon: 'emoji/' + i + '.png',
+                        applyTo: 'filterPanel',
+                        //hidden:'true',
+                        id: i,
+                        handler: function(e) {
+                            var editor=Ext.getCmp('df');
+                            var _id = e.getId();
+                            alert("id?=" + e.getId());
+                            var _div = document.createElement('img');
+                            _div.src = 'emoji/' + _id + '.png';
+                            if (Ext.isIE) {
+                                editor.insertAtCursor(_div.outerHTML);
+                            } else {
+                                var selection = editor.win.getSelection();
+                                if (!selection.isCollapsed) {
+                                    selection.deleteFromDocument();
+                                }
+                                if (selection.rangeCount > 0) {
+                                    selection.getRangeAt(0).insertNode(_div);
+                                } else {
+                                    Ext.getCmp('df').setValue(Ext.getCmp('df').getValue() + _div.outerHTML);
+                                }
+                            }
+                            var _c=Ext.getCmp('emoji-main').hide();;
+                        }
+                    });
+                    icon.push(tmpBtn);
+                }
+                filterPanel.add(icon);
             };
         </script>
         <script type="text/javascript" src="ext4/plusin/myEditor.js"></script>
@@ -77,18 +126,10 @@
             var user = "${user}";
             var target = 'all';
         </script>
-
     </head>
 
     <body>
-        <!--	<h1>WebSocket聊天室</h1>
-                <p>通过HTML5标准提供的API与Ext富客户端框架相结合起来，实现聊天室，有以下特点：</p>
-                <ul class="feature-list" style="padding-left: 10px;">
-                        <li>实时获取数据，由服务器推送，实现即时通讯</li>
-                        <li>利用WebSocket完成数据通讯，区别于轮询，长连接等技术，节省服务器资源</li>
-                        <li>结合Ext进行页面展示</li>
-                        <li>用户上线下线通知</li>
-                </ul>-->
+
         <div id="websocket_button"></div>
         <div id="scope" style="position: absolute; bottom: 23px" ></div>
     </body>

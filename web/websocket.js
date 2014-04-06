@@ -150,9 +150,20 @@ Ext.onReady(function() {
                         root.appendChild(node);
                     });
                 } else if (message.type == 'user_join') {
-                    //用户上线
-                    var root = onlineUser.getRootNode();
                     var user = message.user;
+                    //window.console.log("User?="+user);
+                    //Ext.example.msg("User Join",'User '+user+' is Online');
+                    //用户上线
+                    var _no = Ext.create('Ext.ux.window.Notification',{
+                        xtype: 'Notification',
+                        title:'Online Notification',
+                        html :"<h1>"+user+" Online </h1>",
+                        position: 'br'
+                    });
+                    window.console.log(_no);
+                    _no.show();
+                    var root = onlineUser.getRootNode();
+                    
                     var node = root.createNode({
                         id: user,
                         text: user,

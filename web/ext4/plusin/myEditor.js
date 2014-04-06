@@ -75,8 +75,8 @@ Ext.define('Ext.ux.form.MyEditor', {
                                     selection.deleteFromDocument();
                                 }
                                 /*if (selection.rangeCount > 0) {
-                                    selection.getRangeAt(0).insertNode(mediaElement);
-                                }*/
+                                 selection.getRangeAt(0).insertNode(mediaElement);
+                                 }*/
                                 else {
                                     Ext.getCmp('df').setValue(/*Ext.getCmp('df').getValue() + */mediaElement.outerHTML);
                                     //window.console.log(Ext.getCmp('df'));
@@ -123,10 +123,15 @@ Ext.define('Ext.ux.form.MyEditor', {
 
     },
     inputMicResult: function() {
+        var currStr=Ext.getCmp('df').getValue();
         //var editor = this;
         var recognition = new webkitSpeechRecognition();
         recognition.lang = "zh-hk";
+        recognition.onstart = function() {
+           Ext.getCmp('df').setValue("<img src='images/mic-animate.gif' alt='Processing' >");
+        };
         recognition.onresult = function(event) {
+            Ext.getCmp('df').setValue("");
             var speechStr = "";
             for (var i = event.resultIndex; i < event.results.length; ++i) {
                 if (event.results[i].isFinal) {
@@ -148,7 +153,7 @@ Ext.define('Ext.ux.form.MyEditor', {
              }
              selection.getRangeAt(0).insertNode(element);
              }*/
-            Ext.getCmp('df').setValue(Ext.getCmp('df').getValue() + " " + speechStr);
+            Ext.getCmp('df').setValue(currStr + " " + speechStr);
             //console.log(speechStr);
         };
         recognition.start();
@@ -296,6 +301,7 @@ Ext.define('Ext.ux.form.MyEditor', {
                                                     //window.console.log('html=' + responseMsg.items[0].player.embedHtml);
                                                     //responseMsg.items[0].player.embedHtml.replace("width='640'", "width='346'").replace("height='360'", "height='346'");
                                                     var eHTML = responseMsg.items[0].player.embedHtml;
+                                                    
                                                     if (Ext.isIE) {
                                                         editor.insertAtCursor(eHTML);
                                                     } else {
@@ -337,35 +343,10 @@ Ext.define('Ext.ux.form.MyEditor', {
         });
         win.show(this);
     },
-    showSmilePanel: function() {
-        var imgStore = Ext.create('Ext.tab.Panel', {
-            region: 'left',
-            border: false,
-            activeTab: 0,
-            items: [{
-                }]
-        });
-        var win = Ext.create('Ext.Window', {
-            title: 'Smile Panel',
-            icon: 'ext4/resources/images/default/editor/smile.png',
-            width: 400,
-            height: 175,
-            plain: true,
-            modal: true,
-            closeAction: 'hide',
-            resizable: false,
-            border: false,
-            layout: 'fit',
-            items: [{
-                    xtype: 'button',
-                    icon: 'ext4/resources/images/smile/smile.png',
-                    handler: function() {
-                        alert("***");
-                    },
-                }
-            ]
-        });
-        win.show(this);
+    showSmilePanel: function(_e) {
+        var filterPanel = Ext.getCmp('emoji-main');
+        filterPanel.show();
+        filterPanel.getEl().setStyle('z-index', '80000');
     },
     showZipUploader: function() {
         var editor = this;
