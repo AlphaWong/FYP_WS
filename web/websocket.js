@@ -16,14 +16,14 @@ Ext.define('MessageContainer', {
         '<tpl for=".">',
         '<div class="l-im-message">',
         '<div class="l-im-message-header l-im-message-header-{source}">{from}  {timestamp}</div>',
-        '<div class="l-im-message-body">{content}</div>', '</div>',
+        '<div class="l-im-message-body-{source}-{to}">{content}</div>', '</div>',
         '</tpl>'],
     messages: [],
     initComponent: function() {
         var me = this;
         me.messageModel = Ext.define('Leetop.im.MessageModel', {
             extend: 'Ext.data.Model',
-            fields: ['from', 'timestamp', 'content', 'source']
+            fields: ['from', 'timestamp', 'content', 'source','to']
         });
         me.store = Ext.create('Ext.data.Store', {
             model: 'Leetop.im.MessageModel',
@@ -40,6 +40,9 @@ Ext.define('MessageContainer', {
             message.source = 'self';
         } else {
             message.source = 'remote';
+        }
+        if(message.to!='all'){
+            message.to='whisper';
         }
         me.store.add(message);
         if (me.el.dom) {
