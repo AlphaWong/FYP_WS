@@ -15,7 +15,7 @@ Ext.define('MessageContainer', {
         '<div class="l-im-message-warn">​Never give out personal details</div>',
         '<tpl for=".">',
         '<div class="l-im-message">',
-        '<div class="l-im-message-header l-im-message-header-{source}">{from}  {timestamp}</div>',
+        '<div class="l-im-message-header l-im-message-header-{source}">{from}  {timestamp}&nbsp;</div>',
         '<div class="l-im-message-body-{source}-{to}">{content}</div>', '</div>',
         '</tpl>'],
     messages: [],
@@ -37,6 +37,7 @@ Ext.define('MessageContainer', {
         message['timestamp'] = Ext.Date.format(new Date(message['timestamp']),
                 'H:i:s');
         if (message.from == user) {
+            message.from='Me';
             message.source = 'self';
         } else {
             message.source = 'remote';

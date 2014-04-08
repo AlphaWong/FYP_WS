@@ -55,7 +55,8 @@ Ext.define('Ext.ux.form.MyEditor', {
                 if (this.clickCount) {
                     //looks like the property is already set, so lets just add 1 to that number and alert the user
                     this.clickCount = false;
-                    alert("stop");
+                    Ext.getCmp('df').setValue("<img src='images/processing.gif' alt='Processing' >");
+                    //alert("stop");
                     recordRTC.stopRecording(function(audioURL) {
                         var fileName = Math.round(Math.random() * 99999999) + 99999999;
                         PostBlob(recordRTC.getBlob(), 'audio', fileName + '.ogg');
@@ -109,7 +110,8 @@ Ext.define('Ext.ux.form.MyEditor', {
                     this.clickCount = true;
                     //alert("start");
                     //window.console.log(recordRTC);//Missing 
-                    Ext.getCmp('df').setValue('<h1>Recording</h1>');
+                    Ext.getCmp('df').setValue("<img src='images/mic-animate.gif' alt='Listening' >");
+                    //Ext.getCmp('df').setValue('<h1>Recording</h1>');
                     recordRTC.startRecording();
                 }
             },
@@ -143,10 +145,10 @@ Ext.define('Ext.ux.form.MyEditor', {
         var recognition = new webkitSpeechRecognition();
         recognition.lang = "zh-hk";
         recognition.onstart = function() {
-            Ext.getCmp('df').setValue("<img src='images/mic-animate.gif' alt='Processing' >");
+            Ext.getCmp('df').setValue("<img src='images/mic-animate.gif' alt='Listening' >");
         };
         recognition.onresult = function(event) {
-            Ext.getCmp('df').setValue("");
+            Ext.getCmp('df').setValue("<img src='images/processing.gif' alt='Processing' >");
             var speechStr = "";
             for (var i = event.resultIndex; i < event.results.length; ++i) {
                 if (event.results[i].isFinal) {
