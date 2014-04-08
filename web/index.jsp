@@ -78,7 +78,7 @@
                     title: 'Emoji',
                     //items: icon,
                     autoScroll: true,
-                    closable:true,
+                    closable: true,
                     closeAction: 'hide',
                     height: 300,
                     draggable: 'true',
@@ -94,7 +94,7 @@
                         //hidden:'true',
                         id: i,
                         handler: function(e) {
-                            var editor=Ext.getCmp('df');
+                            var editor = Ext.getCmp('df');
                             var _id = e.getId();
                             alert("id?=" + e.getId());
                             var _div = document.createElement('img');
@@ -112,7 +112,8 @@
                                     Ext.getCmp('df').setValue(Ext.getCmp('df').getValue() + _div.outerHTML);
                                 }
                             }
-                            var _c=Ext.getCmp('emoji-main').hide();;
+                            var _c = Ext.getCmp('emoji-main').hide();
+                            ;
                         }
                     });
                     icon.push(tmpBtn);

@@ -23,7 +23,21 @@ Ext.define('Ext.ux.form.MyEditor', {
             handler: this.inputMicResult,
             scope: this
         });
-
+        me.toolbar.insert(21, {
+            xtype: 'button',
+            icon: 'images/assistive-listening.gif',
+            handler: function() {
+                var selObj = Ext.getCmp('_view').getSelectedNodes()[0].children[1].firstElementChild;//window.getSelection();
+//                window.console.log(selObj);
+                var text = selObj.innerHTML.toString();
+                window.console.log(selObj);
+                var u = new SpeechSynthesisUtterance(text);
+                //u.lang = 'zh-HK';
+                //u.voice = voices[44];
+                speechSynthesis.speak(u);
+            },
+            scope: this
+        });
         me.toolbar.insert(17, {
             xtype: 'button',
             enableToggle: true,
@@ -119,16 +133,17 @@ Ext.define('Ext.ux.form.MyEditor', {
             handler: this.showQRcode,
             scope: this
         });
+
         return me.toolbar;
 
     },
     inputMicResult: function() {
-        var currStr=Ext.getCmp('df').getValue();
+        var currStr = Ext.getCmp('df').getValue();
         //var editor = this;
         var recognition = new webkitSpeechRecognition();
         recognition.lang = "zh-hk";
         recognition.onstart = function() {
-           Ext.getCmp('df').setValue("<img src='images/mic-animate.gif' alt='Processing' >");
+            Ext.getCmp('df').setValue("<img src='images/mic-animate.gif' alt='Processing' >");
         };
         recognition.onresult = function(event) {
             Ext.getCmp('df').setValue("");
@@ -195,6 +210,8 @@ Ext.define('Ext.ux.form.MyEditor', {
                                                 var qrText = f.findField('qrText').getValue();
                                                 window.console.log('Text?=' + qrText);
                                                 var div = document.createElement('div');
+
+                                                //div.style.borderStyle='solid';
                                                 if (!f.isValid()) {
                                                     return;
                                                 }
@@ -211,7 +228,11 @@ Ext.define('Ext.ux.form.MyEditor', {
                                                     qrcode.makeCode(_test);
                                                 }
                                                 makeCode(qrText);
+                                                var _img = div.getElementsByTagName('img')[0];
+                                                _img.style.backgroundColor = 'white';
+                                                _img.style.padding = '10px';
                                                 window.console.log('div?=' + div);
+                                                window.console.log(_img);
                                                 if (Ext.isIE) {
                                                     editor.insertAtCursor(div.outerHTML);
                                                 } else {
@@ -222,7 +243,7 @@ Ext.define('Ext.ux.form.MyEditor', {
                                                     if (selection.rangeCount > 0) {
                                                         selection.getRangeAt(0).insertNode(div);
                                                     } else {
-                                                        Ext.getCmp('df').setValue(Ext.getCmp('df').getValue() + div);
+                                                        Ext.getCmp('df').setValue(Ext.getCmp('df').getValue() + div.outerHTML);
                                                     }
                                                 }
                                                 win.hide();
@@ -301,7 +322,7 @@ Ext.define('Ext.ux.form.MyEditor', {
                                                     //window.console.log('html=' + responseMsg.items[0].player.embedHtml);
                                                     //responseMsg.items[0].player.embedHtml.replace("width='640'", "width='346'").replace("height='360'", "height='346'");
                                                     var eHTML = responseMsg.items[0].player.embedHtml;
-                                                    
+
                                                     if (Ext.isIE) {
                                                         editor.insertAtCursor(eHTML);
                                                     } else {

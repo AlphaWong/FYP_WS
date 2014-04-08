@@ -52,10 +52,15 @@ Ext.define('MessageContainer', {
 });
 
 Ext.onReady(function() {
+    //创建消息展示容器
+    var output = Ext.create('MessageContainer', {
+        id: '_view',
+        region: 'center'
+    });
     //创建用户输入框
-    var tmp = {
+    var tmp = Ext.create('Ext.ux.form.MyEditor', {
         id: 'df',
-        xtype: 'myeditor',
+        //xtype: 'myeditor',
         region: 'south',
         height: 120,
         enableFont: false,
@@ -63,20 +68,11 @@ Ext.onReady(function() {
         enableAlignments: false,
         url: '/upload', //图片上传路径在这里设置
         listeners: {
-            initialize: function() {
-                Ext.EventManager.on(me.input.getDoc(), {
-                    click: function(e) {
-                        if (e.ctrlKey === true
-                                && e.keyCode == 13) {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            send();
-                        }
-                    }
-                });
+            click: function(e) {
+                alert();
             }
         }
-    };
+    });
 
     var input = Ext.create('Ext.form.field.HtmlEditor', {
         region: 'south',
@@ -99,10 +95,7 @@ Ext.onReady(function() {
             }
         }
     });
-    //创建消息展示容器
-    var output = Ext.create('MessageContainer', {
-        region: 'center'
-    });
+
 
     var dialog = Ext.create('Ext.panel.Panel', {
         region: 'center',
