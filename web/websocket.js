@@ -15,15 +15,16 @@ Ext.define('MessageContainer', {
         '<div class="l-im-message-warn">​Never give out personal details</div>',
         '<tpl for=".">',
         '<div class="l-im-message">',
-        '<div class="l-im-message-header l-im-message-header-{source}">{from}  {timestamp}&nbsp;</div>',
-        '<div class="l-im-message-body-{source}-{to}">{content}</div>', '</div>',
+        '<div class="l-im-message-header l-im-message-header-{source}" >{from}  {timestamp}&nbsp;' + "{speech}" + '</div>',
+        '<div class="l-im-message-body-{source}-{to}" /*style="display: inline-block;min-width:53px;"*/ />{content}</div>',
+        '</div>',
         '</tpl>'],
     messages: [],
     initComponent: function() {
         var me = this;
         me.messageModel = Ext.define('Leetop.im.MessageModel', {
             extend: 'Ext.data.Model',
-            fields: ['from', 'timestamp', 'content', 'source', 'to']
+            fields: ['from', 'timestamp', 'content', 'source', 'to', 'speech']
         });
         me.store = Ext.create('Ext.data.Store', {
             model: 'Leetop.im.MessageModel',
@@ -36,8 +37,13 @@ Ext.define('MessageContainer', {
         var me = this;
         message['timestamp'] = Ext.Date.format(new Date(message['timestamp']),
                 'H:i:s');
+        var _at = Ext.getCmp('_at').pressed;
+        if (_at == true) {
+            message['speech'] = '<span><input type="image" class="l-im-message-speech" src="images/assistive-listening.gif" value=\"' + message.content + '\" onclick=\'speech(this);\' /></span>';
+        }
+        window.console.log(message.content);
         if (message.from == user) {
-            message.from='Me';
+            message.from = 'Me';
             message.source = 'self';
         } else {
             message.source = 'remote';
@@ -102,11 +108,26 @@ Ext.onReady(function() {
         region: 'center',
         layout: 'border',
         items: [tmp, output],
-        buttons: [{
+        buttons: [{id: '_at',
+                xtype: 'button',
+                enableToggle: true,
+                icon: 'images/assistive-listening.gif',
+                toggleHandler: function(button, state) {
+                    window.console.log(state);
+                    if (state.toString() == 'false') {
+                        Ext.Msg.alert('Assistive listening Mode', "Assistive listening Mode is Off");
+                        Ext.getCmp("df").toolbar.el.slideIn();
+                    } else {
+                        Ext.Msg.alert('Assistive listening Mode', "Assistive listening Mode is ON");
+                        Ext.getCmp("df").toolbar.getEl().slideOut();
+                    }
+                },
+                scope: this}, {
                 id: 'sd',
                 text: 'Send',
                 handler: send
-            }]
+            }
+        ]
     });
     var websocket;
 
@@ -228,6 +249,7 @@ Ext.onReady(function() {
         closable: false,
         items: [dialog, onlineUser],
         border: false,
+        tbar: [],
         listeners: {
             render: function() {
                 initWebSocket();

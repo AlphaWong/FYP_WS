@@ -15,18 +15,28 @@
         <!-- 引入CSS文件 -->
         <link rel="stylesheet" type="text/css" href="ext4/resources/css/ext-all-gray.css">
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
         <script src="js/qrcode.js"></script>
         <link rel="stylesheet" type="text/css" href="ext4/shared/example.css" />
         <link rel="stylesheet" type="text/css" href="css/websocket.css" />
         <link rel="stylesheet" type="text/css" href="css/image.css" />
         <script src="js/RecordRTC.js"></script>
+        <script>
+            function speech(obj) {
+                
+                var u = new SpeechSynthesisUtterance(obj.value);
+                //u.lang = 'zh-HK';
+                //u.voice = voices[44];
+                speechSynthesis.speak(u);
+            }
+        </script>
         <!-- 映入Ext的JS开发包，及自己实现的webscoket. -->
         <script type="text/javascript" src="ext4/ext-all-debug.js"></script>
         <script type="text/javascript" src="js/Notification.js"></script>
         <script>
             window.onload = function() {
+
                 //document.querySelector('#body').onmousemove = findScreenCoords;
                 navigator.getMedia = (navigator.getUserMedia ||
                         navigator.webkitGetUserMedia ||
@@ -127,6 +137,7 @@
             var user = "${user}";
             var target = 'all';
         </script>
+
     </head>
 
     <body>

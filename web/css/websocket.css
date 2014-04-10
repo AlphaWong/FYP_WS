@@ -10,6 +10,11 @@
     font-weight: bold;
 }
 
+.l-im-message-speech{
+    width:15px;
+    hight:15px;
+}
+
 .l-im-message {
     font-family: "微软雅黑";
     cursor: default;
@@ -56,6 +61,7 @@
     border-radius: 10px;
 }
 .l-im-message-body-remote-all{
+    text-align: right;
     font-size: 12px;
     padding: 2px 0px 2px 20px;
     position: relative;
@@ -129,6 +135,7 @@
     border-radius: 10px;
 }
 .l-im-message-body-remote-whisper{
+    text-align: right;
     font-size: 12px;
     padding: 2px 0px 2px 20px;
     position: relative;

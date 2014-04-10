@@ -23,21 +23,6 @@ Ext.define('Ext.ux.form.MyEditor', {
             handler: this.inputMicResult,
             scope: this
         });
-        me.toolbar.insert(21, {
-            xtype: 'button',
-            icon: 'images/assistive-listening.gif',
-            handler: function() {
-                var selObj = Ext.getCmp('_view').getSelectedNodes()[0].children[1].firstElementChild;//window.getSelection();
-//                window.console.log(selObj);
-                var text = selObj.innerHTML.toString();
-                window.console.log(selObj);
-                var u = new SpeechSynthesisUtterance(text);
-                //u.lang = 'zh-HK';
-                //u.voice = voices[44];
-                speechSynthesis.speak(u);
-            },
-            scope: this
-        });
         me.toolbar.insert(17, {
             xtype: 'button',
             enableToggle: true,
