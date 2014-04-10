@@ -37,8 +37,9 @@ Ext.define('MessageContainer', {
         var me = this;
         message['timestamp'] = Ext.Date.format(new Date(message['timestamp']),
                 'H:i:s');
-        var _at = Ext.getCmp('_at').pressed;
-        if (_at == true) {
+                window.console.log(message.at);
+        //var _at = Ext.getCmp('_at').pressed;
+        if (message.at == true) {
             message['speech'] = '<span><input type="image" class="l-im-message-speech" src="images/assistive-listening.gif" value=\"' + message.content + '\" onclick=\'speech(this);\' /></span>';
         }
         window.console.log(message.content);
@@ -278,25 +279,29 @@ Ext.onReady(function() {
         var input = Ext.getCmp('df');
         var message = {};
         if (websocket != null) {
+            
             if (input.getValue()) {
-                if (target == "all") {
+                var _at = Ext.getCmp('_at').pressed;
+//                if (target == "all") {
+//                    Ext.apply(message, {
+//                        from: user,
+//                        content: input.getValue(),
+//                        timestamp: new Date().getTime(),
+//                        type: 'message',
+//                        to: 'all',
+//                        at:_at
+//                    });
+//                }
+                //else {
                     Ext.apply(message, {
                         from: user,
                         content: input.getValue(),
                         timestamp: new Date().getTime(),
                         type: 'message',
-                        to: 'all'
+                        to: target,
+                        at:_at
                     });
-                }
-                else {
-                    Ext.apply(message, {
-                        from: user,
-                        content: input.getValue(),
-                        timestamp: new Date().getTime(),
-                        type: 'message',
-                        to: target
-                    });
-                }
+                //}
                 websocket.send(JSON.stringify(message));
                 //output.receive(message);
                 input.setValue('');
