@@ -37,7 +37,7 @@ Ext.define('MessageContainer', {
         var me = this;
         message['timestamp'] = Ext.Date.format(new Date(message['timestamp']),
                 'H:i:s');
-                window.console.log(message.at);
+        window.console.log(message.at);
         //var _at = Ext.getCmp('_at').pressed;
         if (message.at == true) {
             message['speech'] = '<span><input type="image" class="l-im-message-speech" src="images/assistive-listening.gif" value=\"' + message.content + '\" onclick=\'speech(this);\' /></span>';
@@ -277,11 +277,18 @@ Ext.onReady(function() {
     function send() {
         //window.console.log(Ext.getCmp('df').getValue());
         var input = Ext.getCmp('df');
+        var _tmp=document.createElement('div');
+        _tmp.innerHTML=input.getValue();
+        window.console.log("_tmp=?"+_tmp.innerText);
+        var _input=input.getValue();
         var message = {};
         if (websocket != null) {
-            
+
             if (input.getValue()) {
                 var _at = Ext.getCmp('_at').pressed;
+                if(_at==true){
+                    _input=_tmp.innerText;
+                }
 //                if (target == "all") {
 //                    Ext.apply(message, {
 //                        from: user,
@@ -293,14 +300,14 @@ Ext.onReady(function() {
 //                    });
 //                }
                 //else {
-                    Ext.apply(message, {
-                        from: user,
-                        content: input.getValue(),
-                        timestamp: new Date().getTime(),
-                        type: 'message',
-                        to: target,
-                        at:_at
-                    });
+                Ext.apply(message, {
+                    from: user,
+                    content: _input,//input.getValue(),
+                    timestamp: new Date().getTime(),
+                    type: 'message',
+                    to: target,
+                    at: _at
+                });
                 //}
                 websocket.send(JSON.stringify(message));
                 //output.receive(message);
