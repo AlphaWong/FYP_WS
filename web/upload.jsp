@@ -4,12 +4,17 @@
     Author     : Alpha
 --%>
 
+
+
+<%@page import="org.apache.commons.io.FileUtils"%>
+<%@page import="org.apache.commons.codec.binary.Base64"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="java.util.HashMap"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="org.apache.commons.fileupload.*"%>
 <%@ page import="org.apache.commons.fileupload.FileItem"%>
 <%@ page import="java.io.File"%>
+
 <%
     File file;
     DiskFileUpload upload = new DiskFileUpload();
@@ -37,7 +42,15 @@
         String dir = filePath + "\\" + userName;
         new File(dir).mkdir();
         //File newFile = new File("c:/" + fileName);
-        if (name.equalsIgnoreCase("zip-filename")) {
+        if (name.equalsIgnoreCase("webp-filename")) {
+            Base64 base64 = new Base64();
+            //file = new File(dir, value);
+            byte [] tmp=base64.decode(fileName);
+            FileUtils.writeByteArrayToFile(new File("C:\\1.webp"), tmp);
+            file = new File(dir);
+            FileUtils.writeByteArrayToFile(file, tmp);
+            fileName = value;
+        } else if (name.equalsIgnoreCase("zip-filename")) {
             file = new File(dir, value);
             fileName = value;
         } else if (name.equalsIgnoreCase("audio-filename")) {
@@ -65,7 +78,7 @@
     map.put("url", text);
     String json = (new Gson()).toJson(map);
     //String msg = "{success:true,url:\"" + text + "\"}";
-    System.out.println("Json = "+json);
+    System.out.println("Json = " + json);
     response.getWriter().write(json);
 %>
 

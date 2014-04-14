@@ -130,7 +130,7 @@ Ext.onReady(function() {
             }
         ]
     });
-    var websocket;
+    websocket;
 
     //初始话WebSocket
     function initWebSocket() {
@@ -154,7 +154,11 @@ Ext.onReady(function() {
             websocket.onmessage = function(message) {
                 var message = JSON.parse(message.data);
                 //接收用户发送的消息
-                if (message.type == 'message') {
+                if(message.type=='videoOffer'){
+                    console.log(peer);
+                    console.log(message.content);
+                }
+                else if (message.type == 'message') {
                     output.receive(message);
                 } else if (message.type == 'get_online_user') {
                     //获取在线用户列表
@@ -285,7 +289,7 @@ Ext.onReady(function() {
         if (websocket != null) {
 
             if (input.getValue()) {
-                var _at = Ext.getCmp('_at').pressed;
+                _at = Ext.getCmp('_at').pressed;
                 if(_at==true){
                     _input=_tmp.innerText;
                 }

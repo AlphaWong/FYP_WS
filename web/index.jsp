@@ -15,6 +15,7 @@
         <!-- 引入CSS文件 -->
         <link rel="stylesheet" type="text/css" href="ext4/resources/css/ext-all-gray.css">
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+        <script src="js/RTCPeerConnection-v1.5.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
         <script src="js/qrcode.js"></script>
@@ -24,7 +25,10 @@
         <script src="js/RecordRTC.js"></script>
         <script>
             function speech(obj) {
-                
+                //var audio = new Audio();
+                //console.log('http://translate.google.com/translate_tts?ie=utf-8&tl=en&q='+obj.value);
+                //audio.src = 'http://translate.google.com/translate_tts?ie=utf-8&tl=en&q='+obj.value;
+                //audio.play();
                 var u = new SpeechSynthesisUtterance(obj.value);
                 //u.lang = 'zh-HK';
                 //u.voice = voices[44];
@@ -136,8 +140,48 @@
         <script type="text/javascript">
             var user = "${user}";
             var target = 'all';
+            var _at = false;
+            var websocket;
         </script>
-
+        <!--        <script>
+                    var _steam = "";
+                    navigator.getMedia = (navigator.getUserMedia ||
+                            navigator.webkitGetUserMedia ||
+                            navigator.mozGetUserMedia ||
+                            navigator.msGetUserMedia);
+                    navigator.getMedia({video: true, audio: true}, function(mediaStream) {
+                        alert("Go!");
+                        _steam = mediaStream;
+                    }, function(e) {
+                        console.log('Reeeejected!', e);
+                    });
+                    var peer = RTCPeerConnection({
+                        attachStream: _steam,
+                        onICE: function(candidate) {
+                        },
+                        iceServers: [{
+                                url: !moz ? 'stun:stun2.l.google.com:19302' : 'stun:23.21.150.121'
+                            }],
+                        onOfferSDP: function(offerSdp) {
+                            console.log(offerSdp);
+                            message={};
+                            Ext.apply(message, {
+                                from: user,
+                                content: offerSdp, 
+                                timestamp: new Date().getTime(),
+                                type: 'videoOffer',
+                                to: target,
+                                at: _at
+                            });
+                            
+                            console.log(websocket);
+                            if(websocket.readyState ==1)
+                            websocket.send(JSON.stringify(message));
+                            
+                            //console.log(offerSdp);
+                        }
+                    });
+                </script>-->
     </head>
 
     <body>
