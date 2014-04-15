@@ -158,7 +158,7 @@ Ext.define('Ext.ux.form.MyEditor', {
 
         };
         recognition.onresult = function(event) {
-            _start.parentNode.replaceChild(_processing,_start);
+            _start.parentNode.replaceChild(_processing, _start);
             //Ext.getCmp('df').setValue("<img src='images/processing.gif' alt='Processing' >");
             var speechStr = "";
             for (var i = event.resultIndex; i < event.results.length; ++i) {
@@ -187,7 +187,7 @@ Ext.define('Ext.ux.form.MyEditor', {
 //            }
             console.log(element);
             console.log(speechStr);
-            _processing.parentNode.replaceChild(element,_processing);
+            _processing.parentNode.replaceChild(element, _processing);
         };
         recognition.start();
 
@@ -339,8 +339,12 @@ Ext.define('Ext.ux.form.MyEditor', {
                                                     window.console.log('Duration=' + responseMsg.items[0].contentDetails.duration.replace('PT', "").replace('H', " Hours, ").replace('M', " Minutes, ").replace('S', " Second"));
                                                     //window.console.log('html=' + responseMsg.items[0].player.embedHtml);
                                                     //responseMsg.items[0].player.embedHtml.replace("width='640'", "width='346'").replace("height='360'", "height='346'");
-                                                    var eHTML = responseMsg.items[0].player.embedHtml;
+                                                    var _div = document.createElement("div");
+                                                    _div.innerHTML = responseMsg.items[0].player.embedHtml;
 
+                                                    var eHTML = _div.firstChild;
+                                                    eHTML.style.height = "250px";
+                                                    eHTML.style.width = "auto";
                                                     if (Ext.isIE) {
                                                         editor.insertAtCursor(eHTML);
                                                     } else {
@@ -351,7 +355,7 @@ Ext.define('Ext.ux.form.MyEditor', {
                                                         /*if (selection.rangeCount > 0) {
                                                          selection.getRangeAt(0).insertNode(eHTML);
                                                          } */ else {
-                                                            Ext.getCmp('df').setValue(Ext.getCmp('df').getValue() + eHTML);
+                                                            Ext.getCmp('df').setValue(Ext.getCmp('df').getValue() + eHTML.outerHTML);
                                                         }
                                                     }
                                                     win.hide();
