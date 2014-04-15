@@ -125,15 +125,41 @@ Ext.define('Ext.ux.form.MyEditor', {
 
     },
     inputMicResult: function() {
+        var editor = this;
         var currStr = Ext.getCmp('df').getValue();
         //var editor = this;
+        var _start, _processing;
+        if (_start == null || _processing == null) {
+            _start = document.createElement('img');
+            _start.alt = "Listiening";
+            _start.src = "images/mic-animate.gif";
+            _processing = document.createElement('img');
+            _processing.alt = "Processing";
+            _processing.src = "images/processing.gif";
+        }
         var recognition = new webkitSpeechRecognition();
         recognition.lang = "zh-hk";
         recognition.onstart = function() {
-            Ext.getCmp('df').setValue("<img src='images/mic-animate.gif' alt='Listening' >");
+            if (Ext.isIE) {
+                editor.insertAtCursor("<img src='images/mic-animate.gif' alt='Listening' >");
+            } else {
+                var selection = editor.win.getSelection();
+                if (!selection.isCollapsed) {
+                    selection.deleteFromDocument();
+                }
+                if (selection.rangeCount > 0) {
+                    selection.getRangeAt(0).insertNode(_start);
+                } else {
+                    Ext.getCmp('df').setValue(Ext.getCmp('df').getEl().dom.add(_start));
+                    //Ext.getCmp('df').setValue(Ext.getCmp('df').getValue() + "<img src='images/mic-animate.gif' alt='Listening' >");
+                }
+            }
+            //Ext.getCmp('df').setValue("<img src='images/mic-animate.gif' alt='Listening' >");
+
         };
         recognition.onresult = function(event) {
-            Ext.getCmp('df').setValue("<img src='images/processing.gif' alt='Processing' >");
+            _start.parentNode.replaceChild(_processing,_start);
+            //Ext.getCmp('df').setValue("<img src='images/processing.gif' alt='Processing' >");
             var speechStr = "";
             for (var i = event.resultIndex; i < event.results.length; ++i) {
                 if (event.results[i].isFinal) {
@@ -144,19 +170,24 @@ Ext.define('Ext.ux.form.MyEditor', {
                     speechStr += event.results[i][0].transcript;
                 }
             }
-            var element = document.createElement('div');
-            element.text = speechStr;
-            /*if (Ext.isIE) {
-             editor.insertAtCursor(element.outerHTML);
-             } else {
-             var selection = editor.win.getSelection();
-             if (!selection.isCollapsed) {
-             selection.deleteFromDocument();
-             }
-             selection.getRangeAt(0).insertNode(element);
-             }*/
-            Ext.getCmp('df').setValue(currStr + " " + speechStr);
-            //console.log(speechStr);
+            var element = document.createElement('span');
+            element.innerText = speechStr;
+//            if (Ext.isIE) {
+//                editor.insertAtCursor("<img src='images/mic-animate.gif' alt='Listening' >");
+//            } else {
+//                var selection = editor.win.getSelection();
+//                if (!selection.isCollapsed) {
+//                    selection.deleteFromDocument();
+//                }
+//                if (selection.rangeCount > 0) {
+//                    selection.getRangeAt(0).insertNode(_start);
+//                } else {
+//                    Ext.getCmp('df').setValue(Ext.getCmp('df').getValue() + "<img src='images/mic-animate.gif' alt='Listening' >");
+//                }
+//            }
+            console.log(element);
+            console.log(speechStr);
+            _processing.parentNode.replaceChild(element,_processing);
         };
         recognition.start();
 

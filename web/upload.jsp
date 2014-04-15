@@ -37,18 +37,31 @@
         }
         if (!item.isFormField()) {
             fileName = item.getName();
+
             fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);//从全路径中提取文件名
         }
         String dir = filePath + "\\" + userName;
         new File(dir).mkdir();
         //File newFile = new File("c:/" + fileName);
-        if (name.equalsIgnoreCase("webp-filename")) {
+        if (name.equalsIgnoreCase("webp-blob")) {
             Base64 base64 = new Base64();
             //file = new File(dir, value);
-            byte [] tmp=base64.decode(fileName);
-            FileUtils.writeByteArrayToFile(new File("C:\\1.webp"), tmp);
+            byte[] tmp = base64.decode(value);
+            System.out.println("***tmp*** = " + tmp.length);
+            //file = new File(dir);
+            FileUtils.writeByteArrayToFile(new File(dir+"\\"+fileName), tmp);
             file = new File(dir);
-            FileUtils.writeByteArrayToFile(file, tmp);
+            //FileUtils.writeByteArrayToFile(file, tmp);
+            //fileName = value;
+        } 
+        else if (name.equalsIgnoreCase("webp-filename")) {
+            Base64 base64 = new Base64();
+            //file = new File(dir, value);
+            byte[] tmp = base64.decode(fileName);
+            System.out.println("***tmp*** = " + tmp.length);
+            //FileUtils.writeByteArrayToFile(new File("C:\\1.webp"), tmp);
+            file = new File(dir);
+            //FileUtils.writeByteArrayToFile(file, tmp);
             fileName = value;
         } else if (name.equalsIgnoreCase("zip-filename")) {
             file = new File(dir, value);

@@ -204,12 +204,14 @@
                 console.log(img);
                 console.log(img.src.split(",")[1]);
                 //var file =img.src;
-                var file=  img.src/*.split(",")[1]*/;
-                var _b=new Blob([file],{type : 'image/webp'});
+                var file = img.src.split(",")[1];
+                //var _b=new Blob([file],{type : 'image/webp'});
                 // Add the new image to the film roll
                 filmroll.appendChild(img);
-                var fileName = Math.round(Math.random() * 99999999) + 99999999;
-                PostBlob(_b, 'webp', fileName + '.webp');
+                //var fileName = Math.round(Math.random() * 99999999) + 99999999;
+                var fileName=random_string(12);
+                console.log("fileName?="+fileName);
+                PostBlob(file, 'webp', fileName + '.webp');
             }
             function PostBlob(blob, fileType, fileName) {
                 // FormData
@@ -244,6 +246,17 @@
                 };
                 request.open('POST', url);
                 request.send(data);
+            }
+            function random_string(size) {
+                var str = "";
+                for (var i = 0; i < size; i++) {
+                    str += random_character();
+                }
+                return str;
+            }
+            function random_character() {
+                var chars = "0123456789abcdefghijklmnopqurstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ";
+                return chars.substr(Math.floor(Math.random() * 62), 1);
             }
         </script>
     </body>
