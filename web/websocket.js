@@ -48,6 +48,7 @@ Ext.define('MessageContainer', {
             message.source = 'self';
         } else {
             message.source = 'remote';
+            
         }
         if (message.to != 'all') {
             message.to = 'whisper';
@@ -134,6 +135,16 @@ Ext.onReady(function() {
 
     //初始话WebSocket
     function initWebSocket() {
+        var _window = function(_t,_msg) {
+            var _no = Ext.create('Ext.ux.window.Notification', {
+                xtype: 'Notification',
+                title: _t,
+                html: "<h1>" + _msg +"</h1>",
+                position: 'br'
+            });
+            window.console.log(_no);
+            _no.show();
+        };
         if (window.WebSocket) {
             var host = document.location.host;
 //            websocket = new WebSocket(encodeURI('ws://localhost:8080/WS/message'));
@@ -151,15 +162,17 @@ Ext.onReady(function() {
                 win.setTitle(title + '&nbsp;&nbsp;(Disconnected)');
             }
             //消息接收
-            websocket.onmessage = function(message) {
-                var message = JSON.parse(message.data);
+            websocket.onmessage = function(_message) {
+                var message = JSON.parse(_message.data);
                 //接收用户发送的消息
-                if(message.type=='videoOffer'){
+                if (message.type == 'videoOffer') {
                     console.log(peer);
                     console.log(message.content);
                 }
                 else if (message.type == 'message') {
                     output.receive(message);
+                     _window('New Message Notification',message.from+" Sent a Message");
+                    console.log('source?='+message.source);
                 } else if (message.type == 'get_online_user') {
                     //获取在线用户列表
                     var root = onlineUser.getRootNode();
@@ -174,17 +187,7 @@ Ext.onReady(function() {
                     });
                 } else if (message.type == 'user_join') {
                     var user = message.user;
-                    //window.console.log("User?="+user);
-                    //Ext.example.msg("User Join",'User '+user+' is Online');
-                    //用户上线
-                    var _no = Ext.create('Ext.ux.window.Notification', {
-                        xtype: 'Notification',
-                        title: 'Online Notification',
-                        html: "<h1>" + user + " Online </h1>",
-                        position: 'br'
-                    });
-                    window.console.log(_no);
-                    _no.show();
+                    _window('Online Notification',user+" Online");
                     var root = onlineUser.getRootNode();
 
                     var node = root.createNode({
@@ -281,17 +284,17 @@ Ext.onReady(function() {
     function send() {
         //window.console.log(Ext.getCmp('df').getValue());
         var input = Ext.getCmp('df');
-        var _tmp=document.createElement('div');
-        _tmp.innerHTML=input.getValue();
-        window.console.log("_tmp=?"+_tmp.innerText);
-        var _input=input.getValue();
+        var _tmp = document.createElement('div');
+        _tmp.innerHTML = input.getValue();
+        window.console.log("_tmp=?" + _tmp.innerText);
+        var _input = input.getValue();
         var message = {};
         if (websocket != null) {
 
             if (input.getValue()) {
                 _at = Ext.getCmp('_at').pressed;
-                if(_at==true){
-                    _input=_tmp.innerText;
+                if (_at == true) {
+                    _input = _tmp.innerText;
                 }
 //                if (target == "all") {
 //                    Ext.apply(message, {
@@ -306,7 +309,7 @@ Ext.onReady(function() {
                 //else {
                 Ext.apply(message, {
                     from: user,
-                    content: _input,//input.getValue(),
+                    content: _input, //input.getValue(),
                     timestamp: new Date().getTime(),
                     type: 'message',
                     to: target,
