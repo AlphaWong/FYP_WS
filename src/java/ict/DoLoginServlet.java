@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
  *
  * @author Alpha
@@ -41,21 +42,21 @@ public class DoLoginServlet extends HttpServlet {
             entityManager.getTransaction().begin();
             String userID = request.getParameter("userID");
             String userPassword = request.getParameter("userPassword");
-           User tmp = new User();
-            tmp.setUserId(userID);
-            tmp.setUserPassword(userPassword);
-            //System.out.println("*****" + tmp.getUserID());
+            User tmp = new User();
+            tmp.setUserid(userID);
+            tmp.setUserpassword(userPassword);
+            System.out.println("*****" + tmp.getUserid());
             
-            User user = entityManager.find(User.class, tmp.getUserId());
-            if (user.getUserPassword().equals(tmp.getUserPassword())) {
+            User user = entityManager.find(User.class, tmp.getUserid());
+            if (user.getUserpassword().equals(tmp.getUserpassword())) {
                 entityManager.getTransaction().commit();
                 entityManager.close();
                 entityManagerFactory.close();
-                request.getSession(true).setAttribute("user", user.getUserId());
+                request.getSession(true).setAttribute("user", user.getUserid());
             }
 
         } catch (Exception e) {
-            System.out.println("ERROR:"+e.getMessage());
+            System.out.println("****ERROR:****"+e.getMessage());
         }
         response.sendRedirect("index.jsp");
     }

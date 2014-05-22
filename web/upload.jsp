@@ -40,7 +40,9 @@
 
             fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);//从全路径中提取文件名
         }
-        String dir = filePath + "\\" + userName;
+        //String dir = filePath + "\\" + userName; only for window
+        String dir = filePath + "/" + userName;
+        
         new File(dir).mkdir();
         //File newFile = new File("c:/" + fileName);
         if (name.equalsIgnoreCase("webp-blob")) {

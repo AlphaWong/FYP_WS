@@ -18,57 +18,57 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author AlphaWong
+ * @author alphawong
  */
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-    @NamedQuery(name = "User.findByUserId", query = "SELECT u FROM User u WHERE u.userId = :userId"),
-    @NamedQuery(name = "User.findByUserPassword", query = "SELECT u FROM User u WHERE u.userPassword = :userPassword")})
+    @NamedQuery(name = "User.findByUserid", query = "SELECT u FROM User u WHERE u.userid = :userid"),
+    @NamedQuery(name = "User.findByUserpassword", query = "SELECT u FROM User u WHERE u.userpassword = :userpassword")})
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "userId")
-    private String userId;
+    @Column(name = "Userid")
+    private String userid;
     @Basic(optional = false)
-    @Column(name = "userPassword")
-    private String userPassword;
+    @Column(name = "Userpassword")
+    private String userpassword;
 
     public User() {
     }
 
-    public User(String userId) {
-        this.userId = userId;
+    public User(String userid) {
+        this.userid = userid;
     }
 
-    public User(String userId, String userPassword) {
-        this.userId = userId;
-        this.userPassword = userPassword;
+    public User(String userid, String userpassword) {
+        this.userid = userid;
+        this.userpassword = userpassword;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 
-    public String getUserPassword() {
-        return userPassword;
+    public String getUserpassword() {
+        return userpassword;
     }
 
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
+    public void setUserpassword(String userpassword) {
+        this.userpassword = userpassword;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (userId != null ? userId.hashCode() : 0);
+        hash += (userid != null ? userid.hashCode() : 0);
         return hash;
     }
 
@@ -79,7 +79,7 @@ public class User implements Serializable {
             return false;
         }
         User other = (User) object;
-        if ((this.userId == null && other.userId != null) || (this.userId != null && !this.userId.equals(other.userId))) {
+        if ((this.userid == null && other.userid != null) || (this.userid != null && !this.userid.equals(other.userid))) {
             return false;
         }
         return true;
@@ -87,7 +87,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "ict.User[ userId=" + userId + " ]";
+        return "ict.User[ userid=" + userid + " ]";
     }
     
 }
