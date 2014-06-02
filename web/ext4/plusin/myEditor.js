@@ -341,10 +341,16 @@ Ext.define('Ext.ux.form.MyEditor', {
                                                     //responseMsg.items[0].player.embedHtml.replace("width='640'", "width='346'").replace("height='360'", "height='346'");
                                                     var _div = document.createElement("div");
                                                     _div.innerHTML = responseMsg.items[0].player.embedHtml;
-
-                                                    var eHTML = _div.firstChild;
-                                                    eHTML.style.height = "250px";
-                                                    eHTML.style.width = "auto";
+                                                    _div=document.createElement("a");
+                                                    _div.setAttribute("href",youtubeURL);
+                                                    _div.setAttribute("target","_blank");
+                                                    var _img=document.createElement("img");
+                                                    _img.setAttribute("src",responseMsg.items[0].snippet.thumbnails.medium.url);
+                                                    _div.appendChild(_img);
+                                                    var eHTML=_div;
+                                                    //var eHTML = _div.firstChild;
+                                                    //eHTML.style.height = "250px";
+                                                    //eHTML.style.width = "auto";
                                                     if (Ext.isIE) {
                                                         editor.insertAtCursor(eHTML);
                                                     } else {

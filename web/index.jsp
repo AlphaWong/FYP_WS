@@ -88,7 +88,7 @@
                     if (match && match[7].length == 11) {
                         return match[7];
                     } else {
-                        alert("Url incorrecta");
+                        alert("Url incorrect");
                     }
                 };
 
@@ -116,7 +116,7 @@
                         handler: function(e) {
                             var editor = Ext.getCmp('df');
                             var _id = e.getId();
-                            alert("id?=" + e.getId());
+                            //alert("id?=" + e.getId());
                             var _div = document.createElement('img');
                             _div.src = 'emoji/' + _id + '.png';
                             if (Ext.isIE) {
@@ -132,7 +132,7 @@
                                     Ext.getCmp('df').setValue(Ext.getCmp('df').getValue() + _div.outerHTML);
                                 }
                             }
-                            var _c = Ext.getCmp('emoji-main').hide();
+                            //var _c = Ext.getCmp('emoji-main').hide();
                             ;
                         }
                     });
