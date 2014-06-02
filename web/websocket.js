@@ -48,7 +48,7 @@ Ext.define('MessageContainer', {
             message.source = 'self';
         } else {
             message.source = 'remote';
-            
+
         }
         if (message.to != 'all') {
             message.to = 'whisper';
@@ -135,11 +135,11 @@ Ext.onReady(function() {
 
     //初始话WebSocket
     function initWebSocket() {
-        var _window = function(_t,_msg) {
+        var _window = function(_t, _msg) {
             var _no = Ext.create('Ext.ux.window.Notification', {
                 xtype: 'Notification',
                 title: _t,
-                html: "<h1>" + _msg +"</h1>",
+                html: "<h1>" + _msg + "</h1>",
                 position: 'br'
             });
             window.console.log(_no);
@@ -171,8 +171,10 @@ Ext.onReady(function() {
                 }
                 else if (message.type == 'message') {
                     output.receive(message);
-                     _window('New Message Notification',message.from+" Sent a Message");
-                    console.log('source?='+message.source);
+                    if (message.from != 'Me') {
+                        _window('New Message Notification', message.from + " Sent a Message");
+                    }
+                    console.log('source?=' + message.source);
                 } else if (message.type == 'get_online_user') {
                     //获取在线用户列表
                     var root = onlineUser.getRootNode();
@@ -187,7 +189,7 @@ Ext.onReady(function() {
                     });
                 } else if (message.type == 'user_join') {
                     var user = message.user;
-                    _window('Online Notification',user+" Online");
+                    _window('Online Notification', user + " Online");
                     var root = onlineUser.getRootNode();
 
                     var node = root.createNode({
@@ -245,15 +247,16 @@ Ext.onReady(function() {
     //展示窗口
     var win = Ext.create('Ext.window.Window', {
         title: title + '&nbsp;&nbsp;(Connecting)',
+        maximized:true,
         layout: 'border',
         iconCls: 'user-win',
-        minWidth: 900/*650*/,
-        minHeight: 600/*460*/,
-        width: 900 /*650*/,
+        //minWidth: 900/*650*/,
+        //minHeight: 600/*460*/,
+        //width: 900 /*650*/,
         animateTarget: 'websocket_button',
-        height: 600 /*460*/,
-        minimizable: true,
-        maximizable: true,
+        //height: 600 /*460*/,
+        minimizable: false,
+        maximizable: false,
         closable: false,
         items: [dialog, onlineUser],
         border: false,

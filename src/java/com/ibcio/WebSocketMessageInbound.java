@@ -5,9 +5,7 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-
 import net.sf.json.JSONObject;
-
 import org.apache.catalina.websocket.MessageInbound;
 import org.apache.catalina.websocket.WsOutbound;
 
