@@ -26,6 +26,9 @@
         <param-name>file-upload</param-name>
         <param-value>/home/alphawong/Documents/Server/apache-tomcat-7.0.47/webapps/data</param-value>
     </context-param>
+    <welcome-file-list>
+        <welcome-file>login.jsp</welcome-file>
+    </welcome-file-list>
     <jsp-config>
     </jsp-config>
 </web-app>

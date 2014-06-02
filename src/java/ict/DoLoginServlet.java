@@ -5,6 +5,7 @@
  */
 package ict;
 
+import bean.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.persistence.EntityManager;
@@ -15,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.codec.binary.Base64;
 
 
 /**
@@ -40,19 +42,26 @@ public class DoLoginServlet extends HttpServlet {
             EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("WSPU");
             EntityManager entityManager = entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
-            String userID = request.getParameter("userID");
-            String userPassword = request.getParameter("userPassword");
-            User tmp = new User();
-            tmp.setUserid(userID);
-            tmp.setUserpassword(userPassword);
-            System.out.println("*****" + tmp.getUserid());
             
-            User user = entityManager.find(User.class, tmp.getUserid());
-            if (user.getUserpassword().equals(tmp.getUserpassword())) {
+            String _request = request.getParameter("AAA");
+            String userID = new String(Base64.decodeBase64(_request));
+            
+            String _request_ = request.getParameter("BBB");
+            String userPassword = new String(Base64.decodeBase64(_request_));
+
+            //String userID = request.getParameter("userID");
+            //String userPassword = request.getParameter("userPassword");
+            User tmp = new User();
+            tmp.setUserID(userID);
+            tmp.setPassword(userPassword);
+            System.out.println("*****" + tmp.getUserID());
+            
+            User user = entityManager.find(User.class, tmp.getUserID());
+            if (user.getPassword().equals(tmp.getPassword())) {
                 entityManager.getTransaction().commit();
                 entityManager.close();
                 entityManagerFactory.close();
-                request.getSession(true).setAttribute("user", user.getUserid());
+                request.getSession(true).setAttribute("user", user.getUserName());
             }
 
         } catch (Exception e) {

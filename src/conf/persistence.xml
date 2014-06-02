@@ -2,13 +2,46 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="WSPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>ict.User</class>
+    <class>bean.Operatingsystem</class>
+    <class>bean.Promotionscheme</class>
+    <class>bean.Keyboardtype</class>
+    <class>bean.Store</class>
+    <class>bean.Flashmemorycard</class>
+    <class>bean.Category</class>
+    <class>bean.Mobile</class>
+    <class>bean.Navigation</class>
+    <class>bean.Tag</class>
+    <class>bean.Comment</class>
+    <class>bean.Mobiletype</class>
+    <class>bean.Chatroom</class>
+    <class>bean.Connectivityandsharing</class>
+    <class>bean.Machineinterface</class>
+    <class>bean.Simcardtype</class>
+    <class>bean.Merchandise</class>
+    <class>bean.Storemerchandise</class>
+    <class>bean.Mobilenetworkstandard</class>
+    <class>bean.Sensortype</class>
+    <class>bean.Touchscreentype</class>
+    <class>bean.Screenmaterial</class>
+    <class>bean.Cpucoretype</class>
+    <class>bean.Storeuppergarmentchoice</class>
+    <class>bean.Userstatus</class>
+    <class>bean.Lowergarment</class>
+    <class>bean.Cpumanufacturer</class>
+    <class>bean.Cloth</class>
+    <class>bean.Flash</class>
+    <class>bean.Promotionpreference</class>
+    <class>bean.Wlantype</class>
+    <class>bean.User</class>
+    <class>bean.Brand</class>
+    <class>bean.Message</class>
+    <class>bean.Uppergarment</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/FYP"/>
-      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://tyt06326.no-ip.org:3306/productsearchweb"/>
+      <property name="javax.persistence.jdbc.user" value="fyp"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="root"/>
+      <property name="javax.persistence.jdbc.password" value="fyp"/>
     </properties>
   </persistence-unit>
 </persistence>

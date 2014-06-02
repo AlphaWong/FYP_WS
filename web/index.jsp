@@ -1,6 +1,12 @@
+<%@page import="org.apache.tomcat.util.codec.binary.Base64"%>
+
 <%@ page language="java" pageEncoding="UTF-8" import="com.ibcio.WebSocketMessageServlet"%>
 <%
-    String user = (String) session.getAttribute("user");
+    //String _request = request.getParameter("AAA");
+    //String user = new String(Base64.decodeBase64(_request));
+    String user= (String) request.getSession().getAttribute("user");
+    //String user = (String) request.getParameter("user");
+    //System.out.println(request.getSession().getAttribute("user")));
     if (user == null) {
         //为用户生成昵称
         user = "Guest" + WebSocketMessageServlet.ONLINE_USER_COUNT;
@@ -135,53 +141,15 @@
                 filterPanel.add(icon);
             };
         </script>
+        <script type="text/javascript">
+                    var user = "${pageScope.user}";
+                    var target = 'all';
+                    var _at = false;
+                    var websocket;
+        </script>
         <script type="text/javascript" src="ext4/plusin/myEditor.js"></script>
         <script type="text/javascript" src="websocket.js"></script>
-        <script type="text/javascript">
-            var user = "${user}";
-            var target = 'all';
-            var _at = false;
-            var websocket;
-        </script>
-        <!--        <script>
-                    var _steam = "";
-                    navigator.getMedia = (navigator.getUserMedia ||
-                            navigator.webkitGetUserMedia ||
-                            navigator.mozGetUserMedia ||
-                            navigator.msGetUserMedia);
-                    navigator.getMedia({video: true, audio: true}, function(mediaStream) {
-                        alert("Go!");
-                        _steam = mediaStream;
-                    }, function(e) {
-                        console.log('Reeeejected!', e);
-                    });
-                    var peer = RTCPeerConnection({
-                        attachStream: _steam,
-                        onICE: function(candidate) {
-                        },
-                        iceServers: [{
-                                url: !moz ? 'stun:stun2.l.google.com:19302' : 'stun:23.21.150.121'
-                            }],
-                        onOfferSDP: function(offerSdp) {
-                            console.log(offerSdp);
-                            message={};
-                            Ext.apply(message, {
-                                from: user,
-                                content: offerSdp, 
-                                timestamp: new Date().getTime(),
-                                type: 'videoOffer',
-                                to: target,
-                                at: _at
-                            });
-                            
-                            console.log(websocket);
-                            if(websocket.readyState ==1)
-                            websocket.send(JSON.stringify(message));
-                            
-                            //console.log(offerSdp);
-                        }
-                    });
-                </script>-->
+
     </head>
 
     <body>
